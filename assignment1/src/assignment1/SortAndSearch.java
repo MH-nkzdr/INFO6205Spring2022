@@ -4,7 +4,7 @@ import java.util.*;
 
 // Minxi Han
 // NUID: 002954176
-public class main {
+public class SortAndSearch {
 
 	public static void main(String[] args) {
 
