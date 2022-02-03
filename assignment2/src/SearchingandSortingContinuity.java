@@ -10,12 +10,12 @@ public class SearchingAndSortingContinuity {
 		System.out.println(searchInsert(nums, target_position));
 
 		// 540. Single Element in a Sorted Array
-		int[] array = {1, 1, 2, 3, 3, 4, 4, 8, 8};
-		System.out.println(singleNonDuplicate(array));
+		int[] sorted_array = {1, 1, 2, 3, 3, 4, 4, 8, 8};
+		System.out.println(singleNonDuplicate(sorted_array));
 
 		// 153. Find Minimum in Rotated Sorted Array
-		int[] sorted_array = {4, 5, 6, 7, 0, 1, 2};
-		System.out.println(findMin(sorted_array));
+		int[] rotated_sorted_array = {4, 5, 6, 7, 0, 1, 2};
+		System.out.println(findMin(rotated_sorted_array));
 
 		// 253. Meeting Rooms II
 		int[][] rooms = {{0, 30}, {5, 10}, {15, 20}};
