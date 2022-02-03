@@ -15,24 +15,19 @@ public class SortAndSearch {
 		System.out.println(majorityElement(elements));
 
 		// 274. H-Index
-		int[] citations = {3,0,6,1,5};
+		int[] citations = {3, 0, 6, 1, 5};
 		System.out.println(hIndex(citations));
 
 		// 349. Intersection of Two Arrays
-		int[] nums1 = {1,2,2,1};
+		int[] nums1 = {1, 2, 2, 1};
 		int[] nums2 = {2, 2};
 		System.out.println(Arrays.toString(intersection(nums1, nums2)));
 
 		// 658. Find K Closest Elements
-		int[] arr = {1,2,3,4,5};
+		int[] arr = {1, 2, 3, 4, 5};
 		int k = 4;
 		int x = 3;
 		System.out.println(findClosestElements(arr, k, x));
-
-		// 692. Top K Frequent Words
-		String[] wordlist = {"i","love","leetcode","i","love","coding"};
-		int topK = 2;
-		System.out.println(topKFrequent(wordlist, topK));
 
 		// 767. Reorganize String
 		String S = "aab";
@@ -48,8 +43,13 @@ public class SortAndSearch {
 		System.out.println(pancakeSort(pancake));
 
 		// 1636. Sort Array by Increasing Frequency
-		int [] nums = {1,1,2,2,2,3};
+		int[] nums = {1, 1, 2, 2, 2, 3};
 		System.out.println(Arrays.toString(frequencySort(nums)));
+
+		// 692. Top K Frequent Words
+		String[] wordlist = {"i", "love", "leetcode", "i", "love", "coding"};
+		int topK = 2;
+		System.out.println(topKFrequent(wordlist, topK));
 	}
 
 	// 75. Sort Colors
@@ -78,13 +78,12 @@ public class SortAndSearch {
 		nums[j] = temp;
 	}
 
-
 	// 229. Majority Element II
 	public static List<Integer> majorityElement(int[] nums) {
 		if (nums == null || nums.length == 0)
-			return new ArrayList<Integer>();
+			return new ArrayList<>();
 
-		HashMap<Integer, Integer> cnt = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> cnt = new HashMap<>();
 		for (int j : nums) {
 			if (cnt.containsKey(j)) {
 				cnt.put(j, cnt.get(j) + 1);
@@ -102,7 +101,6 @@ public class SortAndSearch {
 		return res;
 	}
 
-
 	// 274. H-Index
 	public static int hIndex(int[] citations) {
 		Arrays.sort(citations);
@@ -114,7 +112,6 @@ public class SortAndSearch {
 		}
 		return h;
 	}
-
 
 	// 349. Intersection of Two Arrays
 	public static int[] intersection(int[] nums1, int[] nums2) {
@@ -142,57 +139,34 @@ public class SortAndSearch {
 		return retArr;
 	}
 
-
 	// 658. Find K Closest Elements
 	public static List<Integer> findClosestElements(int[] arr, int k, int x) {
 		int l = 0;
-		int r = arr.length-k;
+		int r = arr.length - k;
 		List<Integer> res = new ArrayList<>();
 		while (l < r) {
-			int mid = (l+r)/2;
-			if (x-arr[mid] > arr[mid+k]-x) {
-				l=mid+1;
-			} else{
-				r=mid;
+			int mid = (l + r) / 2;
+			if (x - arr[mid] > arr[mid + k] - x) {
+				l = mid + 1;
+			} else {
+				r = mid;
 			}
 		}
-		for (int i = l; i < l+k; i++) {
+		for (int i = l; i < l + k; i++) {
 			res.add(arr[i]);
 		}
 		return res;
 	}
-
-
-	// 692. Top K Frequent Words
-	public static List<String> topKFrequent(String[] words, int k) {
-		Map<String, Integer> cnt = new HashMap<String, Integer>();
-		for (String word : words) {
-			cnt.put(word, cnt.getOrDefault(word, 0) + 1);
-		}
-
-		List<String> res = new ArrayList<String>();
-		for (Map.Entry<String, Integer> entry : cnt.entrySet()) {
-			res.add(entry.getKey());
-		}
-
-		Collections.sort(res, (word1, word2) -> cnt.get(word1) == cnt.get(word2) ?
-				word1.compareTo(word2) : cnt.get(word2) - cnt.get(word1));
-		return res.subList(0, k);
-	}
-
 
 	// 767. Reorganize String
 	public static String reorganizeString(String S) {
 		if (S == null || S.length() <= 0) {
 			return "";
 		}
-
 		char[] chars = S.toCharArray();
 		int[] letters = new int[26];
 		int length = S.length();
-		for (int i = 0; i < length; i++) {
-			letters[chars[i] - 'a']++;
-		}
+		for (int i = 0; i < length; i++) letters[chars[i] - 'a']++;
 
 		int threshold = (length + 1) >> 1;
 		int max = 0;
@@ -215,12 +189,9 @@ public class SortAndSearch {
 			resArr[curIndex] = (char) (maxIndex + 'a');
 			curIndex += 2;
 		}
-
 		for (int i = 0; i < 26; i++) {
 			while (letters[i]-- > 0) {
-				if (curIndex >= length) {
-					curIndex = 1;
-				}
+				if (curIndex >= length) curIndex = 1;
 				resArr[curIndex] = (char) (i + 'a');
 				curIndex += 2;
 			}
@@ -228,25 +199,22 @@ public class SortAndSearch {
 		return new String(resArr);
 	}
 
-
 	// 791. Custom Sort String
 	public static String customSortString(String order, String s) {
 		StringBuilder sb = new StringBuilder();
-		int [] cnt = new int[26];
+		int[] cnt = new int[26];
 		for (char i : s.toCharArray())
-			cnt[i-'a']++;
-
+			cnt[i - 'a']++;
 		for (int i = 0; i < order.length(); i++) {
-			for (int j = 0; j < cnt[order.charAt(i)-'a']; j++) {
+			int tmp = cnt[order.charAt(i) - 'a'];
+			for (int j = 0; j < tmp; j++) {
 				sb.append(order.charAt(i));
 			}
-			cnt[order.charAt(i)-'a'] = 0;
 		}
-
 		for (int i = 0; i < 26; i++) {
 			if (cnt[i] != 0) {
 				for (int j = 0; j < cnt[i]; j++) {
-					sb.append((char)(i+'a'));
+					sb.append((char) (i + 'a'));
 				}
 			}
 		}
@@ -259,10 +227,10 @@ public class SortAndSearch {
 		int n = arr.length;
 		while (n > 0) {
 			for (int i = 0; i < n; i++) {
-				if (arr[i] == n){
-					flips(arr,i+1);
-					flips(arr,n);
-					ret.add(i+1);
+				if (arr[i] == n) {
+					flips(arr, i + 1);
+					flips(arr, n);
+					ret.add(i + 1);
 					ret.add(n);
 					break;
 				}
@@ -272,10 +240,10 @@ public class SortAndSearch {
 		return ret;
 	}
 
-	public static void flips(int[] arr, int i){
+	public static void flips(int[] arr, int i) {
 		int l = 0;
-		int r = i-1;
-		while (l <= r){
+		int r = i - 1;
+		while (l <= r) {
 			int temp = arr[l];
 			arr[l] = arr[r];
 			arr[r] = temp;
@@ -288,8 +256,8 @@ public class SortAndSearch {
 	public static int[] frequencySort(int[] nums) {
 		Map<Integer, Integer> hashmap = new HashMap<>();
 		int length = nums.length;
-		for (int i = 0; i < length; i++) {
-			hashmap.put(nums[i], hashmap.getOrDefault(nums[i], 0) + 1);
+		for (int num : nums) {
+			hashmap.put(num, hashmap.getOrDefault(num, 0) + 1);
 		}
 		PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[0] == o2[0] ? o2[1] - o1[1] : o1[0] - o2[0]);
 		for (Map.Entry<Integer, Integer> entry : hashmap.entrySet()) {
@@ -297,12 +265,29 @@ public class SortAndSearch {
 		}
 		int[] ret = new int[length];
 		int index = 0;
-		while (!pq.isEmpty()){
+		while (!pq.isEmpty()) {
 			int[] ele = pq.poll();
 			for (int i = 0; i < ele[0]; i++) {
 				ret[index++] = ele[1];
 			}
 		}
 		return ret;
+	}
+
+	// 692. Top K Frequent Words
+	public static List<String> topKFrequent(String[] words, int k) {
+		Map<String, Integer> cnt = new HashMap<>();
+		for (String word : words) {
+			cnt.put(word, cnt.getOrDefault(word, 0) + 1);
+		}
+
+		List<String> res = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : cnt.entrySet()) {
+			res.add(entry.getKey());
+		}
+
+		res.sort((word1, word2) -> Objects.equals(cnt.get(word1), cnt.get(word2)) ?
+				word1.compareTo(word2) : cnt.get(word2) - cnt.get(word1));
+		return res.subList(0, k);
 	}
 }
