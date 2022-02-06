@@ -160,9 +160,8 @@ public class SortAndSearch {
 
 	// 767. Reorganize String
 	public static String reorganizeString(String S) {
-		if (S == null || S.length() <= 0) {
-			return "";
-		}
+		if (S == null || S.length() <= 0) return "";
+
 		char[] chars = S.toCharArray();
 		int[] letters = new int[26];
 		int length = S.length();
@@ -177,9 +176,7 @@ public class SortAndSearch {
 			if (max < curCount) {
 				max = curCount;
 				maxIndex = i;
-				if (curCount > threshold) {
-					return "";
-				}
+				if (curCount > threshold) return "";
 			}
 		}
 
@@ -281,13 +278,13 @@ public class SortAndSearch {
 			cnt.put(word, cnt.getOrDefault(word, 0) + 1);
 		}
 
-		List<String> res = new ArrayList<>();
+		List<String> ret = new ArrayList<>();
 		for (Map.Entry<String, Integer> entry : cnt.entrySet()) {
-			res.add(entry.getKey());
+			ret.add(entry.getKey());
 		}
 
-		res.sort((word1, word2) -> Objects.equals(cnt.get(word1), cnt.get(word2)) ?
+		ret.sort((word1, word2) -> Objects.equals(cnt.get(word1), cnt.get(word2)) ?
 				word1.compareTo(word2) : cnt.get(word2) - cnt.get(word1));
-		return res.subList(0, k);
+		return ret.subList(0, k);
 	}
 }
