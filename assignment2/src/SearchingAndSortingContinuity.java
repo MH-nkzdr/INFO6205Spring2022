@@ -54,25 +54,25 @@ public class SearchingAndSortingContinuity {
 	// 35. Search Insert Position
 	public static int searchInsert(int[] nums, int target) {
 		int n = nums.length;
-		int left = 0;
-		int right = n - 1;
-		if (target < nums[left]) {
+		int lo = 0;
+		int hi = n - 1;
+		if (target < nums[lo]) {
 			return 0;
-		} else if (target > nums[right]) {
+		} else if (target > nums[hi]) {
 			return nums.length;
 		}
 
-		while (left <= right) {
-			int mid = left + ((right - left) >> 2);
+		while (lo <= hi) {
+			int mid = lo + ((hi - lo) >> 2);
 			if (nums[mid] == target) {
 				return mid;
 			} else if (nums[mid] < target) {
-				left = mid + 1;
+				lo = mid + 1;
 			} else {
-				right = mid - 1;
+				hi = mid - 1;
 			}
 		}
-		return left;
+		return lo;
 	}
 
 	// 540. Single Element in a Sorted Array
@@ -94,17 +94,17 @@ public class SearchingAndSortingContinuity {
 
 	// 153. Find Minimum in Rotated Sorted Array
 	public static int findMin(int[] nums) {
-		int left = 0;
-		int right = nums.length - 1;
-		while (left < right) {
-			int mid = left + ((right - left) >> 2);
-			if (nums[mid] < nums[right]) {
-				right = mid;
+		int lo = 0;
+		int hi = nums.length - 1;
+		while (lo < hi) {
+			int mid = lo + ((hi - lo) >> 2);
+			if (nums[mid] < nums[hi]) {
+				hi = mid;
 			} else {
-				left = mid + 1;
+				lo = mid + 1;
 			}
 		}
-		return nums[left];
+		return nums[lo];
 	}
 
 	// 253. Meeting Rooms II
@@ -115,7 +115,6 @@ public class SearchingAndSortingContinuity {
 		for (int i = 1; i < intervals.length; i++) {
 			if (intervals[i][0] >= pq.peek()) pq.poll();
 			pq.add(intervals[i][1]);
-
 		}
 		return pq.size();
 	}
@@ -129,7 +128,7 @@ public class SearchingAndSortingContinuity {
 		}
 
 		Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
-		var pq = new PriorityQueue<Map.Entry<Integer, Integer>>((o1, o2) -> o1.getValue() - o2.getValue());
+		var pq = new PriorityQueue<Map.Entry<Integer, Integer>>(Comparator.comparingInt(Map.Entry::getValue));
 		for (Map.Entry<Integer, Integer> entry : entries) {
 			pq.add(entry);
 			if (pq.size() > k) {
@@ -137,7 +136,7 @@ public class SearchingAndSortingContinuity {
 			}
 		}
 		for (int i = k - 1; i >= 0; i--) {
-			ret[i] = pq.poll().getKey();
+			ret[i] = Objects.requireNonNull(pq.poll()).getKey();
 		}
 		return ret;
 	}
@@ -147,15 +146,15 @@ public class SearchingAndSortingContinuity {
 		Arrays.sort(nums);
 		int ans = nums[0] + nums[1] + nums[2];
 		for (int i = 0; i < nums.length; i++) {
-			int start = i + 1, end = nums.length - 1;
-			while (start < end) {
-				int sum = nums[start] + nums[end] + nums[i];
+			int lo = i + 1, hi = nums.length - 1;
+			while (lo < hi) {
+				int sum = nums[lo] + nums[hi] + nums[i];
 				if (Math.abs(target - sum) < Math.abs(target - ans))
 					ans = sum;
 				if (sum > target)
-					end--;
+					hi--;
 				else if (sum < target)
-					start++;
+					lo++;
 				else
 					return ans;
 			}
@@ -165,10 +164,10 @@ public class SearchingAndSortingContinuity {
 
 	// 57. Insert Interval
 	public static int[][] insert(int[][] intervals, int[] newInterval) {
-		List<int[]> res = new ArrayList<>();
+		List<int[]> ret = new ArrayList<>();
 		int i = 0;
 		while (i < intervals.length && intervals[i][1] < newInterval[0]) {
-			res.add(intervals[i]);
+			ret.add(intervals[i]);
 			i++;
 		}
 
@@ -178,24 +177,24 @@ public class SearchingAndSortingContinuity {
 			i++;
 		}
 
-		res.add(newInterval);
+		ret.add(newInterval);
 		while (i < intervals.length) {
-			res.add(intervals[i]);
+			ret.add(intervals[i]);
 			i++;
 		}
-		return res.toArray(new int[res.size()][2]);
+		return ret.toArray(new int[ret.size()][2]);
 	}
 
 	// 435. Non-overlapping Intervals
 	public static int eraseOverlapIntervals(int[][] intervals) {
 		Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
 		int remove = 0;
-		int pre = intervals[0][1];
+		int flag = intervals[0][1];
 		for (int i = 1; i < intervals.length; i++) {
-			if (pre > intervals[i][0]) {
+			if (flag > intervals[i][0]) {
 				remove++;
-				pre = Math.min(pre, intervals[i][1]);
-			} else pre = intervals[i][1];
+				flag = Math.min(flag, intervals[i][1]);
+			} else flag = intervals[i][1];
 		}
 		return remove;
 	}
@@ -207,20 +206,19 @@ public class SearchingAndSortingContinuity {
 		while (i < A.length && j < B.length) {
 			int lo = Math.max(A[i][0], B[j][0]);
 			int hi = Math.min(A[i][1], B[j][1]);
-			if (lo <= hi)
-				ret.add(new int[]{lo, hi});
-
-			if (A[i][1] < B[j][1])
+			if (lo <= hi) ret.add(new int[]{lo, hi});
+			if (A[i][1] < B[j][1]) {
 				i++;
-			else
+			} else {
 				j++;
+			}
 		}
 		return ret.toArray(new int[ret.size()][]);
 	}
 
 	// 18. 4Sum
 	public static List<List<Integer>> fourSum(int[] nums, int target) {
-		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		List<List<Integer>> ret = new ArrayList<>();
 		if (nums == null || nums.length < 4) {
 			return ret;
 		}
@@ -246,24 +244,24 @@ public class SearchingAndSortingContinuity {
 				if (nums[i] + nums[j] + nums[length - 2] + nums[length - 1] < target) {
 					continue;
 				}
-				int left = j + 1;
-				int right = length - 1;
-				while (left < right) {
-					int sum = nums[i] + nums[j] + nums[left] + nums[right];
+				int lo = j + 1;
+				int hi = length - 1;
+				while (lo < hi) {
+					int sum = nums[i] + nums[j] + nums[lo] + nums[hi];
 					if (sum == target) {
-						ret.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
-						left++;
-						while (left < right && nums[left] == nums[left - 1]) {
-							left++;
+						ret.add(Arrays.asList(nums[i], nums[j], nums[lo], nums[hi]));
+						lo++;
+						while (lo < hi && nums[lo] == nums[lo - 1]) {
+							lo++;
 						}
-						right--;
-						while (left < right && nums[right] == nums[right + 1]) {
-							right--;
+						hi--;
+						while (lo < hi && nums[hi] == nums[hi + 1]) {
+							hi--;
 						}
 					} else if (sum < target) {
-						left++;
+						lo++;
 					} else {
-						right--;
+						hi--;
 					}
 				}
 			}
