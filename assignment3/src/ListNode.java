@@ -204,9 +204,4 @@ public class ListNode {
 			r = rNext;
 		}
 	}
-
-	@Override
-	public String toString() {
-		return String.format("Node(%s, next = %s)", val, next);
-	}
 }
