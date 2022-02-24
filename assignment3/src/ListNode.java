@@ -193,14 +193,14 @@ public class ListNode {
 		}
 
 		ListNode reversedRightHead = pre;
-		ListNode l = head;
-		ListNode r = reversedRightHead;
+		ListNode ll = head;
+		ListNode rr = reversedRightHead;
 		while (r != null) {
-			ListNode lNext = l.next;
+			ListNode lNext = ll.next;
 			ListNode rNext = r.next;
-			r.next = l.next;
-			l.next = r;
-			l = lNext;
+			r.next = ll.next;
+			ll.next = r;
+			ll = lNext;
 			r = rNext;
 		}
 	}
