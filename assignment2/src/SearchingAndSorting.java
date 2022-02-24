@@ -3,6 +3,7 @@ import java.util.*;
 // Minxi Han
 // NUID: 002954176
 public class SearchingAndSorting {
+
 	public static void main(String[] args) {
 		// 35. Search Insert Position
 		int[] nums = {1, 3, 5, 6};
