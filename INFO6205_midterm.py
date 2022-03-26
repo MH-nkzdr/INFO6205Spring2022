@@ -56,9 +56,12 @@ class TreeNode:
 
 class Solution:
     def constructTree(self, preorder, inorder):
+        if not preorder or not inorder:
+            return None
+
         val = preorder[0]
         mid = inorder.index(val)
-
+        
         root = TreeNode(val)
         root.left = self.constructTree(preorder[1:mid+1], inorder[:mid])
         root.right = self.constructTree(preorder[mid+1:], inorder[mid+1:])
