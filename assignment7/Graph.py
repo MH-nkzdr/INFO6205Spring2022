@@ -7,8 +7,6 @@ class Node(object):
         self.neighbors = neighbors if neighbors is not None else []
 """
 
-import functools
-
 
 class Solution(object):
     def cloneGraph(self, node):
