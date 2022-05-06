@@ -1,5 +1,10 @@
 # Question1
 def stringCompression(chars):
+
+    # null input
+    if not chars:
+        return chars
+
     # create left and right pointers
     left, right = 0, 0
     max_length = 1
@@ -28,7 +33,7 @@ def stringCompression(chars):
         right += 1
 
     # put the amount of last char into the chars_list
-    if max_length > 1:
+    if max_length >= 1:
         for i in str(max_length):
             compressed_list.append(i)
 
@@ -38,6 +43,11 @@ def stringCompression(chars):
     if len(compressed) <= len(chars):
         return compressed
     return chars
+
+chars1 = "aabcccccaaa"
+chars2 = "ab"
+print(stringCompression(chars1))
+print(stringCompression(chars2))
 
 
 
@@ -52,7 +62,7 @@ def numIslands(grid):
         if (i < 0 or i > m-1) or (j < 0 or j > n-1) or grid[i][j] != "1":
             return
 
-        # set all visited islands as "2" to avoid repeated search
+        # set all visited islands as "2" to avoid repeated searching
         grid[i][j] = "2"
         # start search for 4-directional step
         dfs(i-1, j)
@@ -72,11 +82,26 @@ def numIslands(grid):
     return islands
 
 
+grid1 = [
+    ["1", "1", "1", "1", "0"],
+    ["1", "1", "0", "1", "0"],
+    ["1", "1", "0", "0", "0"],
+    ["0", "0", "0", "0", "0"]
+]
+grid2 = [
+    ["1", "1", "0", "0", "0"],
+    ["1", "1", "0", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "0", "1", "1"]
+]
+print(numIslands(grid1))
+print(numIslands(grid2))
+
 
 # Question3:
 def groupAnagrams(strs):
 
-    # initiate a map to store all str be like: {sorted: [str1, str]}
+    # initiate a map to store all str be like: {sorted(str): [str1, str2]}
     import collections
     res = collections.defaultdict(list)
 
@@ -89,6 +114,13 @@ def groupAnagrams(strs):
     # only need to return dict.values()
     return res.values()
 
+
+strs1 = ["eat", "tea", "tan", "ate", "nat", "bat"]
+strs2 = [""]
+strs3 = ["a"]
+print(strs1)
+print(strs2)
+print(strs3)
 
 
 # Question4:
@@ -110,8 +142,10 @@ def lowestCommonAncestor(root, p, q):
         left_lca = dfs(node.left)
         right_lca = dfs(node.right)
 
+        # if both left_lca and right_lca are existed, return node
         if left_lca and right_lca:
             return node
+        # else: return left_lca or right_lca
         if left_lca:
             return left_lca
         if right_lca:
